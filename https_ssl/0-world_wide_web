@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-
 # Configure your domain zone
 
 if [ $# -le 1 ]; then

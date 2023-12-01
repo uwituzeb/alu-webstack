@@ -1,12 +1,19 @@
 #!/usr/bin/env bash
+
 # Configure your domain zone
 
 if [ $# -le 1 ]; then
-    dig "www.""$1" | grep -A1 'ANSWER SECTION:' | awk '{print "The subdomain www is a " $4 " record and points to " $5 }' | tail -n 1
-    dig "lb-01.""$1"  | grep -A1 'ANSWER SECTION:' | awk '{print "The subdomain lb-01 is a " $4 " record and points to " $5 }' | tail -n 1
-    dig "web-01.""$1" | grep -A1 'ANSWER SECTION:' | awk '{print "The subdomain web-01 is a " $4 " record and points to " $5 }' | tail -n 1
-    dig "web-02.""$1" | grep -A1 'ANSWER SECTION:' | awk '{print "The subdomain web-02 is a " $4 " record and points to " $5 }' | tail -n 1
+    check_subdomain() {
+        subdomain=$1
+        dig "$subdomain.$2" | grep -A1 'ANSWER SECTION:' | awk -v subdomain="$subdomain" '{print "The subdomain " subdomain " is a " $4 " record and points to " $5 }' | tail -n 1
+    }
+
+    check_subdomain www "$1"
+    check_subdomain lb-01 "$1"
+    check_subdomain web-01 "$1"
+    check_subdomain web-02 "$1"
 else
-    echo -n "The subdomain $2"
-    dig "$2"".""$1" | grep -A1 'ANSWER SECTION:' | awk '{print " is a " $4 " record and points to " $5 }' | tail -n 1
+    subdomain=$2
+    echo -n "The subdomain $subdomain"
+    dig "$subdomain.$1" | grep -A1 'ANSWER SECTION:' | awk -v subdomain="$subdomain" '{print " is a " $4 " record and points to " $5 }' | tail -n 1
 fi

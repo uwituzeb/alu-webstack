@@ -39,7 +39,7 @@ frontend front-http
     http-request set-header X-Forwarded-Proto http
     default_backend back-http
 frontend front-https
-    bind *:443 ssl crt /etc/letsencrypt/live/www.amrani-alx.tech/fullchain.pem
+    bind *:443 ssl crt /etc/letsencrypt/live/www.allbernice.tech/fullchain.pem
     mode http
     http-request set-header X-Forwarded-Proto https
     acl letsencrypt-acl path_beg /.well-known/acme-challenge/
@@ -49,8 +49,8 @@ backend back-http
     mode http
     balance roundrobin
     redirect scheme https if !{ ssl_fc }
-    server 5832-web-01 3.80.71.86:80 check
-    server 5832-web-02 18.212.86.249:80 check
+    server 5832-web-01 54.242.121.213:80 check
+    server 5832-web-02 54.173.241.93:80 check
 backend letsencrypt-backend
     mode http
-    server letsencrypt 127.0.0.1:12345
+    server letsencrypt 18.206.170.94:12345

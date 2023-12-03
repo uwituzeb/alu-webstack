@@ -36,11 +36,11 @@ defaults
 
 frontend http_front
 	bind *:80
-	bind *:443 ssl crt /etc/letsencrypt/live/www.martinezv.tech/privkey.pem
+	bind *:443 ssl crt /etc/letsencrypt/live/www.allbernice.tech/privkey.pem
     http-request redirect scheme https code 301 unless { ssl_fc }
 	default_backend http_rear
 
 backend http_rear
 	balance		roundrobin
-	server 5832-web-01		3.80.71.86:80 check
-	server 5832-web-02		18.212.86.249:80 check
+	server 5832-web-01		54.242.121.213:80 check
+	server 5832-web-02		54.173.241.93:80 check
